@@ -13,6 +13,7 @@ from alisabot.util.datetime_util import (
     make_tzaware,
     localized_dt_string,
 )
+from alisabot.util.result import Result
 
 
 class User(db.Model):
@@ -70,3 +71,28 @@ class User(db.Model):
         payload = dict(exp=expire, iat=now, sub=self.public_id, admin=self.admin)
         key = current_app.config.get("SECRET_KEY")
         return jwt.encode(payload, key, algorithm="HS256")
+
+    @staticmethod
+    def decode_access_token(access_token):
+        if isinstance(access_token, bytes):
+            access_token = access_token.decode("ascii")
+        if access_token.startswith("Bearer "):
+            split = access_token.split("Bearer")
+            access_token = split[1].strip()
+        try:
+            key = current_app.config.get("SECRET_KEY")
+            payload = jwt.decode(access_token, key, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            error = "Access token expired. Please log in again."
+            return Result.Fail(error)
+        except jwt.InvalidTokenError:
+            error = "Invalid token. Please log in again."
+            return Result.Fail(error)
+
+        user_dict = dict(
+            public_id=payload["sub"],
+            admin=payload["admin"],
+            token=access_token,
+            expires_at=payload["exp"],
+        )
+        return Result.Ok(user_dict)
