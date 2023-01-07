@@ -12,3 +12,11 @@ def register_user(test_client, email=EMAIL, password=PASSWORD):
         data=f"email={email}&password={password}",
         content_type="application/x-www-form-urlencoded",
     )
+
+
+def login_user(test_client, email=EMAIL, password=PASSWORD):
+    return test_client.post(
+        url_for("api.auth_login"),
+        data=f"email={email}&password={password}",
+        content_type="application/x-www-form-urlencoded",
+    )

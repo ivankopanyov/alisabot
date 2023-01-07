@@ -1,4 +1,4 @@
-"""Бизнес-логика для конечных точек /auth в API."""
+"""Business logic for /auth API endpoints."""
 from http import HTTPStatus
 
 from flask import current_app, jsonify
@@ -14,14 +14,33 @@ def process_registration_request(email, password):
     new_user = User(email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
+    return _create_auth_successful_response(
+        token=new_user.encode_access_token(),
+        status_code=HTTPStatus.CREATED,
+        message="successfully registered",
+    )
+
+
+def process_login_request(email, password):
+    user = User.find_by_email(email)
+    if not user or not user.check_password(password):
+        abort(HTTPStatus.UNAUTHORIZED, "email or password does not match", status="fail")
+    return _create_auth_successful_response(
+        token=user.encode_access_token(),
+        status_code=HTTPStatus.OK,
+        message="successfully logged in",
+    )
+
+
+def _create_auth_successful_response(token, status_code, message):
     response = jsonify(
         status="success",
-        message="successfully registered",
-        access_token=new_user.encode_access_token(),
+        message=message,
+        access_token=token,
         token_type="bearer",
         expires_in=_get_token_expire_time(),
     )
-    response.status_code = HTTPStatus.CREATED
+    response.status_code = status_code
     response.headers["Cache-Control"] = "no-store"
     response.headers["Pragma"] = "no-cache"
     return response
