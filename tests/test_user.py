@@ -38,9 +38,9 @@ def test_decode_access_token_invalid(user):
     payload = json.loads(payload_str)
     assert not payload["admin"]
     payload["admin"] = True
-    payload_mod = json.dumps(payload)
-    payload_mod_base64 = urlsafe_b64encode(payload_mod.encode())
-    split[1] = payload_mod_base64.strip(b"=")
+    split[1] = json.dumps(payload)
+    split = list(map(lambda s: s.encode(), split))
+    split[1] = urlsafe_b64encode(split[1]).strip(b"=")
     access_token_mod = b".".join(split)
     assert not access_token == access_token_mod
     result = User.decode_access_token(access_token_mod)

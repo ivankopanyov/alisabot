@@ -1,4 +1,4 @@
-"""Инициализация приложения Flask через шаблон проектирования factory."""
+""""Инициализация приложения Flask через паттерн factory."""
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
@@ -16,6 +16,10 @@ bcrypt = Bcrypt()
 def create_app(config_name):
     app = Flask("alisabot")
     app.config.from_object(get_config(config_name))
+
+    from alisabot.api import api_bp
+
+    app.register_blueprint(api_bp)
 
     cors.init_app(app)
     db.init_app(app)

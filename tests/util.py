@@ -1,4 +1,14 @@
 """Общие функции и константы для модульных тестов."""
+from flask import url_for
 
-EMAIL = "new_user@email.comdocument.getElementById('cloakfdcf9ac9ed49c4bef623f68a4eb22c98').innerHTML='';var prefix='&#109;a'+'i&#108;'+'&#116;o';var path='hr'+'ef'+'=';var addyfdcf9ac9ed49c4bef623f68a4eb22c98='n&#101;w_&#117;s&#101;r'+'&#64;';addyfdcf9ac9ed49c4bef623f68a4eb22c98=addyfdcf9ac9ed49c4bef623f68a4eb22c98+'&#101;m&#97;&#105;l'+'&#46;'+'c&#111;m';var addy_textfdcf9ac9ed49c4bef623f68a4eb22c98='n&#101;w_&#117;s&#101;r'+'&#64;'+'&#101;m&#97;&#105;l'+'&#46;'+'c&#111;m';document.getElementById('cloakfdcf9ac9ed49c4bef623f68a4eb22c98').innerHTML+='<a '+path+'''+prefix+':'+addyfdcf9ac9ed49c4bef623f68a4eb22c98+''>'+addy_textfdcf9ac9ed49c4bef623f68a4eb22c98+'<\/a>';"
+EMAIL = "new_user@email.com"
 PASSWORD = "test1234"
+BAD_REQUEST = "Input payload validation failed"
+
+
+def register_user(test_client, email=EMAIL, password=PASSWORD):
+    return test_client.post(
+        url_for("api.auth_register"),
+        data=f"email={email}&password={password}",
+        content_type="application/x-www-form-urlencoded",
+    )
