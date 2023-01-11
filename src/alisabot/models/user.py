@@ -7,6 +7,7 @@ from flask import current_app
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from alisabot import db, bcrypt
+from alisabot.models.token_blacklist import BlacklistedToken
 from alisabot.util.datetime_util import (
     utc_now,
     get_local_utcoffset,
@@ -29,15 +30,11 @@ class User(db.Model):
     public_id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()))
 
     def __repr__(self):
-        return (
-            f"<User email={self.email}, public_id={self.public_id}, admin={self.admin}>"
-        )
+        return f"<User email={self.email}, public_id={self.public_id}, admin={self.admin}>"
 
     @hybrid_property
     def registered_on_str(self):
-        registered_on_utc = make_tzaware(
-            self.registered_on, use_tz=timezone.utc, localize=False
-        )
+        registered_on_utc = make_tzaware(self.registered_on, use_tz=timezone.utc, localize=False)
         return localized_dt_string(registered_on_utc, use_tz=get_local_utcoffset())
 
     @property
@@ -87,6 +84,10 @@ class User(db.Model):
             return Result.Fail(error)
         except jwt.InvalidTokenError:
             error = "Invalid token. Please log in again."
+            return Result.Fail(error)
+
+        if BlacklistedToken.check_blacklist(access_token):
+            error = "Token blacklisted. Please log in again."
             return Result.Fail(error)
 
         user_dict = dict(
