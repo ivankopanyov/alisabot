@@ -6,6 +6,7 @@ from alisabot import create_app, db
 from alisabot.models.token_blacklist import BlacklistedToken
 from alisabot.models.user import User
 from alisabot.models.widget import Widget
+from alisabot.models.service import Service
 
 
 """Интерфейс командной строки Flask/Точка входа в приложение."""
@@ -21,6 +22,7 @@ def shell():
         "User": User,
         "BlacklistedToken": BlacklistedToken,
         "Widget": Widget,
+        "Service": Service,
     }
 
 
