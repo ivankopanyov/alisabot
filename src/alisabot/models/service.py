@@ -17,7 +17,7 @@ class Service(db.Model):
     __tablename__ = "service"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(1000), nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=utc_now)
@@ -33,10 +33,6 @@ class Service(db.Model):
         created_at_utc = make_tzaware(self.created_at, use_tz=timezone.utc, localize=False)
         return localized_dt_string(created_at_utc, use_tz=get_local_utcoffset())
 
-    @hybrid_property
-    def duration_passed(self):
-        return self.duration > 0
-
     @classmethod
-    def find_by_name(cls, name):
-        return cls.query.filter_by(name=name).first()
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()

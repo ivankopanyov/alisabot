@@ -19,11 +19,11 @@ def test_retrieve_service_non_admin_user(client, db, admin, user):
     access_token = response.json["access_token"]
     response = create_service(client, access_token)
     assert response.status_code == HTTPStatus.CREATED
-
+    id = response.json["id"]
     response = login_user(client, email=EMAIL)
     assert "access_token" in response.json
     access_token = response.json["access_token"]
-    response = retrieve_service(client, access_token, service_name=DEFAULT_NAME_SERVICE)
+    response = retrieve_service(client, access_token, service_id=id)
     assert response.status_code == HTTPStatus.OK
 
     assert "name" in response.json and response.json["name"] == DEFAULT_NAME_SERVICE
@@ -37,8 +37,6 @@ def test_retrieve_service_does_not_exist(client, db, user):
     response = login_user(client, email=EMAIL)
     assert "access_token" in response.json
     access_token = response.json["access_token"]
-    response = retrieve_service(client, access_token, service_name=DEFAULT_NAME_SERVICE)
+    response = retrieve_service(client, access_token, service_id=0)
     assert response.status_code == HTTPStatus.NOT_FOUND
-    assert (
-        "message" in response.json and f"""{DEFAULT_NAME_SERVICE} not found in database""" in response.json["message"]
-    )
+    assert "message" in response.json and "Service not found in database" in response.json["message"]

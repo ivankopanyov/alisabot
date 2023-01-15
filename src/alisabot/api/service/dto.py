@@ -28,14 +28,7 @@ def service_duration(duration):
 
 
 create_service_reqparser = RequestParser(bundle_errors=True)
-create_service_reqparser.add_argument(
-    "name",
-    type=service_name,
-    location="form",
-    required=True,
-    nullable=False,
-    case_sensitive=True,
-)
+create_service_reqparser.add_argument("name", type=service_name, location="form", required=True, nullable=False)
 create_service_reqparser.add_argument(
     "description",
     type=service_description,
@@ -62,13 +55,12 @@ service_owner_model = Model("Service Owner", {"email": String, "public_id": Stri
 service_model = Model(
     "Service",
     {
+        "id": Integer,
         "name": String,
         "description": String,
+        "duration": Integer,
         "created_at_iso8601": DateTime(attribute="created_at"),
         "created_at_rfc822": DateTime(attribute="created_at", dt_format="rfc822"),
-        "duration": Integer,
-        "duration_passed": Boolean,
-        "time_remaining": String(attribute="time_remaining_str"),
         "owner": Nested(service_owner_model),
         "link": Url("api.service"),
     },

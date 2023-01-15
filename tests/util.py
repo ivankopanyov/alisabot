@@ -111,24 +111,24 @@ def retrieve_service_list(test_client, access_token, page=None, per_page=None):
     )
 
 
-def retrieve_service(test_client, access_token, service_name):
+def retrieve_service(test_client, access_token, service_id):
     return test_client.get(
-        url_for("api.service", name=service_name),
+        url_for("api.service", id=service_id),
         headers={"Authorization": f"Bearer {access_token}"},
     )
 
 
-def update_service(test_client, access_token, service_name, description, duration):
+def update_service(test_client, access_token, service_id, name, description, duration):
     return test_client.put(
-        url_for("api.service", name=service_name),
+        url_for("api.service", id=service_id),
         headers={"Authorization": f"Bearer {access_token}"},
-        data=f"description={description}&duration={duration}",
+        data=f"name={name}&description={description}&duration={duration}",
         content_type="application/x-www-form-urlencoded",
     )
 
 
-def delete_service(test_client, access_token, service_name):
+def delete_service(test_client, access_token, service_id):
     return test_client.delete(
-        url_for("api.service", name=service_name),
+        url_for("api.service", id=service_id),
         headers={"Authorization": f"Bearer {access_token}"},
     )

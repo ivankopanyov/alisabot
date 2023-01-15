@@ -47,7 +47,6 @@ class ServiceList(Resource):
     @service_ns.doc(security="Bearer")
     @service_ns.response(int(HTTPStatus.CREATED), "Added new service.")
     @service_ns.response(int(HTTPStatus.FORBIDDEN), "Administrator token required.")
-    @service_ns.response(int(HTTPStatus.CONFLICT), "Service name already exists.")
     @service_ns.expect(create_service_reqparser)
     def post(self):
         """Create a service."""
@@ -55,35 +54,35 @@ class ServiceList(Resource):
         return create_service(service_dict)
 
 
-@service_ns.route("/<name>", endpoint="service")
-@service_ns.param("name", "Service name")
+@service_ns.route("/<id>", endpoint="service")
+@service_ns.param("id", "Service id")
 @service_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
 @service_ns.response(int(HTTPStatus.NOT_FOUND), "Service not found.")
 @service_ns.response(int(HTTPStatus.UNAUTHORIZED), "Unauthorized.")
 @service_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), "Internal server error.")
 class Service(Resource):
-    """Handles HTTP requests to URL: /services/{name}."""
+    """Handles HTTP requests to URL: /services/{id}."""
 
     @service_ns.doc(security="Bearer")
     @service_ns.response(int(HTTPStatus.OK), "Retrieved service.", service_model)
     @service_ns.marshal_with(service_model)
-    def get(self, name):
+    def get(self, id):
         """Retrieve a service."""
-        return retrieve_service(name)
+        return retrieve_service(id)
 
     @service_ns.doc(security="Bearer")
     @service_ns.response(int(HTTPStatus.OK), "Service was updated.", service_model)
     @service_ns.response(int(HTTPStatus.CREATED), "Added new service.")
     @service_ns.response(int(HTTPStatus.FORBIDDEN), "Administrator token required.")
     @service_ns.expect(update_service_reqparser)
-    def put(self, name):
+    def put(self, id):
         """Update a service."""
         service_dict = update_service_reqparser.parse_args()
-        return update_service(name, service_dict)
+        return update_service(id, service_dict)
 
     @service_ns.doc(security="Bearer")
     @service_ns.response(int(HTTPStatus.NO_CONTENT), "Service was deleted.")
     @service_ns.response(int(HTTPStatus.FORBIDDEN), "Administrator token required.")
-    def delete(self, name):
+    def delete(self, id):
         """Delete a service."""
-        return delete_service(name)
+        return delete_service(id)

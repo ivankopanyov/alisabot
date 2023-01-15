@@ -10,6 +10,7 @@ from tests.util import (
     update_service,
 )
 
+UPDATED_NAME = "new_service_name"
 UPDATED_DESCRIPTION = "https://www.newurl.com"
 UPDATED_DURATION = 150
 
@@ -20,19 +21,21 @@ def test_update_service(client, db, admin):
     access_token = response.json["access_token"]
     response = create_service(client, access_token)
     assert response.status_code == HTTPStatus.CREATED
+    id = response.json["id"]
 
     response = update_service(
         client,
         access_token,
-        service_name=DEFAULT_NAME_SERVICE,
+        service_id=id,
+        name=UPDATED_NAME,
         description=UPDATED_DESCRIPTION,
         duration=UPDATED_DURATION,
     )
     assert response.status_code == HTTPStatus.OK
-    response = retrieve_service(client, access_token, service_name=DEFAULT_NAME_SERVICE)
+    response = retrieve_service(client, access_token, service_id=id)
     assert response.status_code == HTTPStatus.OK
 
-    assert "name" in response.json and response.json["name"] == DEFAULT_NAME_SERVICE
+    assert "name" in response.json and response.json["name"] == UPDATED_NAME
     assert "description" in response.json and response.json["description"] == UPDATED_DESCRIPTION
     assert "duration" in response.json and response.json["duration"] == UPDATED_DURATION
     assert "owner" in response.json and "email" in response.json["owner"]
