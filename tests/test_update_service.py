@@ -3,7 +3,6 @@ from http import HTTPStatus
 
 from tests.util import (
     ADMIN_EMAIL,
-    DEFAULT_NAME_SERVICE,
     login_user,
     create_service,
     retrieve_service,

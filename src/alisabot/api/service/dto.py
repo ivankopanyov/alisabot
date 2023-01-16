@@ -87,4 +87,3 @@ pagination_model = Model(
 
 
 update_service_reqparser = create_service_reqparser.copy()
-update_service_reqparser.remove_argument("name")
