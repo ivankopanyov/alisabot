@@ -39,6 +39,4 @@ def test_retrieve_widget_does_not_exist(client, db, user):
     access_token = response.json["access_token"]
     response = retrieve_widget(client, access_token, widget_name=DEFAULT_NAME)
     assert response.status_code == HTTPStatus.NOT_FOUND
-    assert (
-        "message" in response.json and f"{DEFAULT_NAME} not found in database" in response.json["message"]
-    )
+    assert "message" in response.json and f"{DEFAULT_NAME} not found in database" in response.json["message"]

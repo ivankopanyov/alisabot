@@ -19,6 +19,8 @@ DEFAULT_NAME_SERVICE = "some-service"
 DEFAULT_DESCRIPTION_SERVICE = "some-service_description"
 DEFAULT_DURATION_SERVICE = 30
 
+DEFAULT_NAME_POSITION = "some-position"
+
 
 def register_user(test_client, email=EMAIL, password=PASSWORD):
     return test_client.post(
@@ -130,5 +132,48 @@ def update_service(test_client, access_token, service_id, name, description, dur
 def delete_service(test_client, access_token, service_id):
     return test_client.delete(
         url_for("api.service", id=service_id),
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
+
+
+def create_position(
+    test_client,
+    access_token,
+    position_name=DEFAULT_NAME_POSITION,
+):
+    return test_client.post(
+        url_for("api.position_list"),
+        headers={"Authorization": f"Bearer {access_token}"},
+        data=f"name={position_name}",
+        content_type="application/x-www-form-urlencoded",
+    )
+
+
+def retrieve_position_list(test_client, access_token, page=None, per_page=None):
+    return test_client.get(
+        url_for("api.position_list", page=page, per_page=per_page),
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
+
+
+def retrieve_position(test_client, access_token, position_id):
+    return test_client.get(
+        url_for("api.position", id=position_id),
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
+
+
+def update_position(test_client, access_token, position_id, name):
+    return test_client.put(
+        url_for("api.position", id=position_id),
+        headers={"Authorization": f"Bearer {access_token}"},
+        data=f"name={name}",
+        content_type="application/x-www-form-urlencoded",
+    )
+
+
+def delete_position(test_client, access_token, position_id):
+    return test_client.delete(
+        url_for("api.position", id=position_id),
         headers={"Authorization": f"Bearer {access_token}"},
     )

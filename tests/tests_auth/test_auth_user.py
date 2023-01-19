@@ -6,9 +6,7 @@ from flask import url_for
 from tests.util import EMAIL, WWW_AUTH_NO_TOKEN, register_user, login_user, get_user
 
 TOKEN_EXPIRED = "Access token expired. Please log in again."
-WWW_AUTH_EXPIRED_TOKEN = (
-    f"{WWW_AUTH_NO_TOKEN}, " 'error="invalid_token", ' f'error_description="{TOKEN_EXPIRED}"'
-)
+WWW_AUTH_EXPIRED_TOKEN = f"{WWW_AUTH_NO_TOKEN}, " 'error="invalid_token", ' f'error_description="{TOKEN_EXPIRED}"'
 
 
 def test_auth_user(client, db):
