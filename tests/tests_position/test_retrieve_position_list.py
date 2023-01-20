@@ -46,8 +46,6 @@ def test_retrieve_paginated_position_list(client, db, admin):
     for i in range(0, len(response.json["items"])):
         item = response.json["items"][i]
         assert "name" in item and item["name"] == NAMES[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL
 
     # REQUEST PAGINATED LIST OF POSITIONS: 5 PER PAGE, PAGE #2
     response = retrieve_position_list(client, access_token, page=2, per_page=5)
@@ -66,8 +64,6 @@ def test_retrieve_paginated_position_list(client, db, admin):
     for i in range(5, response.json["total_items"]):
         item = response.json["items"][i - 5]
         assert "name" in item and item["name"] == NAMES[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL
 
     # REQUEST PAGINATED LIST OF POSITIONS: 10 PER PAGE, PAGE #1
     response = retrieve_position_list(client, access_token, page=1, per_page=10)
@@ -86,8 +82,6 @@ def test_retrieve_paginated_position_list(client, db, admin):
     for i in range(0, len(response.json["items"])):
         item = response.json["items"][i]
         assert "name" in item and item["name"] == NAMES[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL
 
     # REQUEST PAGINATED LIST OF POSITIONS: DEFAULT PARAMETERS
     response = retrieve_position_list(client, access_token)
@@ -106,5 +100,3 @@ def test_retrieve_paginated_position_list(client, db, admin):
     for i in range(0, len(response.json["items"])):
         item = response.json["items"][i]
         assert "name" in item and item["name"] == NAMES[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL

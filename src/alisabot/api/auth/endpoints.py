@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from flask_restx import Namespace, Resource
 
-from alisabot.api.auth.dto import auth_reqparser, user_model
+from alisabot.api.auth.dto import auth_reqparser, user_model, auth_position_model
 from alisabot.api.auth.business import (
     process_registration_request,
     process_login_request,
@@ -13,6 +13,7 @@ from alisabot.api.auth.business import (
 
 auth_ns = Namespace(name="auth", validate=True)
 auth_ns.models[user_model.name] = user_model
+auth_ns.models[auth_position_model.name] = auth_position_model
 
 
 @auth_ns.route("/register", endpoint="auth_register")

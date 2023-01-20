@@ -7,7 +7,6 @@ from flask_restx import marshal
 from alisabot import db
 from alisabot.api.auth.decorators import token_required, admin_token_required
 from alisabot.api.position.dto import pagination_model
-from alisabot.models.user import User
 from alisabot.models.position import Position
 from alisabot.models.service import Service
 
@@ -16,8 +15,6 @@ from alisabot.models.service import Service
 def create_position(position_dict):
     name = position_dict["name"]
     position = Position(**position_dict)
-    owner = User.find_by_public_id(create_position.public_id)
-    position.owner_id = owner.id
     db.session.add(position)
     db.session.commit()
     db.session.refresh(position)

@@ -37,5 +37,3 @@ def test_update_service(client, db, admin):
     assert "name" in response.json and response.json["name"] == UPDATED_NAME
     assert "description" in response.json and response.json["description"] == UPDATED_DESCRIPTION
     assert "duration" in response.json and response.json["duration"] == UPDATED_DURATION
-    assert "owner" in response.json and "email" in response.json["owner"]
-    assert response.json["owner"]["email"] == ADMIN_EMAIL

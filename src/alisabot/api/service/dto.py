@@ -49,9 +49,6 @@ pagination_reqparser = RequestParser(bundle_errors=True)
 pagination_reqparser.add_argument("page", type=positive, required=False, default=1)
 pagination_reqparser.add_argument("per_page", type=positive, required=False, choices=[5, 10, 25, 50, 100], default=10)
 
-
-service_owner_model = Model("Service Owner", {"email": String, "public_id": String})
-
 service_model = Model(
     "Service",
     {
@@ -61,7 +58,6 @@ service_model = Model(
         "duration": Integer,
         "created_at_iso8601": DateTime(attribute="created_at"),
         "created_at_rfc822": DateTime(attribute="created_at", dt_format="rfc822"),
-        "owner": Nested(service_owner_model),
         "link": Url("api.service"),
     },
 )

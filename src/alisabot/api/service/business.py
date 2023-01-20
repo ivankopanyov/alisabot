@@ -7,7 +7,6 @@ from flask_restx import marshal
 from alisabot import db
 from alisabot.api.auth.decorators import token_required, admin_token_required
 from alisabot.api.service.dto import pagination_model
-from alisabot.models.user import User
 from alisabot.models.service import Service
 
 
@@ -15,8 +14,6 @@ from alisabot.models.service import Service
 def create_service(service_dict):
     name = service_dict["name"]
     service = Service(**service_dict)
-    owner = User.find_by_public_id(create_service.public_id)
-    service.owner_id = owner.id
     db.session.add(service)
     db.session.commit()
     db.session.refresh(service)

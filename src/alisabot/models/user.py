@@ -29,6 +29,9 @@ class User(db.Model):
     admin = db.Column(db.Boolean, default=False)
     public_id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()))
 
+    position_id = db.Column(db.Integer, db.ForeignKey("position.id"), nullable=True, default=None)
+    position = db.relationship("Position", backref=db.backref("users"))
+
     def __repr__(self):
         return f"<User email={self.email}, public_id={self.public_id}, admin={self.admin}>"
 

@@ -70,8 +70,6 @@ def test_retrieve_paginated_service_list(client, db, admin):
         assert "name" in item and item["name"] == NAMES[i]
         assert "description" in item and item["description"] == DESCRIPTIONS[i]
         assert "duration" in item and item["duration"] == DURATIONS[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL
 
     # REQUEST PAGINATED LIST OF SERVICES: 5 PER PAGE, PAGE #2
     response = retrieve_service_list(client, access_token, page=2, per_page=5)
@@ -92,8 +90,6 @@ def test_retrieve_paginated_service_list(client, db, admin):
         assert "name" in item and item["name"] == NAMES[i]
         assert "description" in item and item["description"] == DESCRIPTIONS[i]
         assert "duration" in item and item["duration"] == DURATIONS[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL
 
     # REQUEST PAGINATED LIST OF SERVICES: 10 PER PAGE, PAGE #1
     response = retrieve_service_list(client, access_token, page=1, per_page=10)
@@ -114,8 +110,6 @@ def test_retrieve_paginated_service_list(client, db, admin):
         assert "name" in item and item["name"] == NAMES[i]
         assert "description" in item and item["description"] == DESCRIPTIONS[i]
         assert "duration" in item and item["duration"] == DURATIONS[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL
 
     # REQUEST PAGINATED LIST OF SERVICES: DEFAULT PARAMETERS
     response = retrieve_service_list(client, access_token)
@@ -136,5 +130,3 @@ def test_retrieve_paginated_service_list(client, db, admin):
         assert "name" in item and item["name"] == NAMES[i]
         assert "description" in item and item["description"] == DESCRIPTIONS[i]
         assert "duration" in item and item["duration"] == DURATIONS[i]
-        assert "owner" in item and "email" in item["owner"]
-        assert item["owner"]["email"] == ADMIN_EMAIL

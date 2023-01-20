@@ -1,13 +1,17 @@
 """Парсеры и сериализаторы для конечных точек /auth в API."""
 from flask_restx import Model
-from flask_restx.fields import String, Boolean
+from flask_restx.fields import String, Boolean, Nested
 from flask_restx.inputs import email
 from flask_restx.reqparse import RequestParser
+
+from alisabot.api.position.dto import position_model
 
 
 auth_reqparser = RequestParser(bundle_errors=True)
 auth_reqparser.add_argument(name="email", type=email(), location="form", required=True, nullable=False)
 auth_reqparser.add_argument(name="password", type=str, location="form", required=True, nullable=False)
+
+auth_position_model = position_model
 
 user_model = Model(
     "User",
@@ -17,5 +21,6 @@ user_model = Model(
         "admin": Boolean,
         "registered_on": String(attribute="registered_on_str"),
         "token_expires_in": String,
+        "position": Nested(auth_position_model, allow_null=True),
     },
 )

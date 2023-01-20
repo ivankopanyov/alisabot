@@ -7,7 +7,6 @@ from alisabot.api.position.dto import (
     create_position_reqparser,
     update_position_reqparser,
     pagination_reqparser,
-    position_owner_model,
     position_model,
     position_service_model,
     pagination_links_model,
@@ -25,7 +24,6 @@ from alisabot.api.position.business import (
 )
 
 position_ns = Namespace(name="positions", validate=True)
-position_ns.models[position_owner_model.name] = position_owner_model
 position_ns.models[position_model.name] = position_model
 position_ns.models[pagination_links_model.name] = pagination_links_model
 position_ns.models[pagination_model.name] = pagination_model

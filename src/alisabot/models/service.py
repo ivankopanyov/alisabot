@@ -22,9 +22,6 @@ class Service(db.Model):
     duration = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=utc_now)
 
-    owner_id = db.Column(db.Integer, db.ForeignKey("site_user.id"), nullable=False)
-    owner = db.relationship("User", backref=db.backref("service"))
-
     def __repr__(self):
         return f"<Service name={self.name}, description={self.description}>"
 

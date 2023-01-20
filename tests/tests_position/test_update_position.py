@@ -19,7 +19,6 @@ def test_update_position(client, db, admin):
     response = create_position(client, access_token)
     assert response.status_code == HTTPStatus.CREATED
     id = response.json["id"]
-
     response = update_position(
         client,
         access_token,
@@ -29,7 +28,4 @@ def test_update_position(client, db, admin):
     assert response.status_code == HTTPStatus.OK
     response = retrieve_position(client, access_token, position_id=id)
     assert response.status_code == HTTPStatus.OK
-
     assert "name" in response.json and response.json["name"] == UPDATED_NAME
-    assert "owner" in response.json and "email" in response.json["owner"]
-    assert response.json["owner"]["email"] == ADMIN_EMAIL

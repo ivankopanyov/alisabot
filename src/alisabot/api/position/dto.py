@@ -26,8 +26,6 @@ pagination_reqparser.add_argument("per_page", type=positive, required=False, cho
 
 position_service_model = service_model
 
-position_owner_model = Model("Position Owner", {"email": String, "public_id": String})
-
 position_model = Model(
     "Position",
     {
@@ -36,7 +34,6 @@ position_model = Model(
         "services": List(Nested(position_service_model)),
         "created_at_iso8601": DateTime(attribute="created_at"),
         "created_at_rfc822": DateTime(attribute="created_at", dt_format="rfc822"),
-        "owner": Nested(position_owner_model),
         "link": Url("api.position"),
     },
 )

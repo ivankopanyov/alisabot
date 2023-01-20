@@ -7,7 +7,6 @@ from alisabot.api.service.dto import (
     create_service_reqparser,
     update_service_reqparser,
     pagination_reqparser,
-    service_owner_model,
     service_model,
     pagination_links_model,
     pagination_model,
@@ -21,7 +20,6 @@ from alisabot.api.service.business import (
 )
 
 service_ns = Namespace(name="services", validate=True)
-service_ns.models[service_owner_model.name] = service_owner_model
 service_ns.models[service_model.name] = service_model
 service_ns.models[pagination_links_model.name] = pagination_links_model
 service_ns.models[pagination_model.name] = pagination_model

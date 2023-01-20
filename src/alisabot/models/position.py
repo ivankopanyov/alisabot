@@ -26,10 +26,7 @@ class Position(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, default=utc_now)
-    services = db.relationship("Service", secondary=position_service, backref=db.backref("position", lazy="dynamic"))
-
-    owner_id = db.Column(db.Integer, db.ForeignKey("site_user.id"), nullable=False)
-    owner = db.relationship("User", backref=db.backref("position"))
+    services = db.relationship("Service", secondary=position_service, backref=db.backref("positions", lazy="dynamic"))
 
     def __repr__(self):
         return f"<Position name={self.name}>"

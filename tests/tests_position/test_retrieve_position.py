@@ -23,10 +23,7 @@ def test_retrieve_position_non_admin_user(client, db, admin, user):
     access_token = response.json["access_token"]
     response = retrieve_position(client, access_token, position_id=id)
     assert response.status_code == HTTPStatus.OK
-
     assert "name" in response.json and response.json["name"] == DEFAULT_NAME
-    assert "owner" in response.json and "email" in response.json["owner"]
-    assert response.json["owner"]["email"] == ADMIN_EMAIL
 
 
 def test_retrieve_position_does_not_exist(client, db, user):
