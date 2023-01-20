@@ -55,7 +55,7 @@ service_owner_model = Model("Service Owner", {"email": String, "public_id": Stri
 service_model = Model(
     "Service",
     {
-        "id": Integer,
+        "id": String,
         "name": String,
         "description": String,
         "duration": Integer,

@@ -15,11 +15,8 @@ DEFAULT_NAME = "some-widget"
 DEFAULT_URL = "https://www.fakesite.com"
 DEFAULT_DEADLINE = date.today().strftime("%m/%d/%y")
 
-DEFAULT_NAME_SERVICE = "some-service"
-DEFAULT_DESCRIPTION_SERVICE = "some-service_description"
+DEFAULT_DESCRIPTION = "some-service_description"
 DEFAULT_DURATION_SERVICE = 30
-
-DEFAULT_NAME_POSITION = "some-position"
 
 
 def register_user(test_client, email=EMAIL, password=PASSWORD):
@@ -94,8 +91,8 @@ def delete_widget(test_client, access_token, widget_name):
 def create_service(
     test_client,
     access_token,
-    service_name=DEFAULT_NAME_SERVICE,
-    description=DEFAULT_DESCRIPTION_SERVICE,
+    service_name=DEFAULT_NAME,
+    description=DEFAULT_DESCRIPTION,
     duration=DEFAULT_DURATION_SERVICE,
 ):
     return test_client.post(
@@ -139,7 +136,7 @@ def delete_service(test_client, access_token, service_id):
 def create_position(
     test_client,
     access_token,
-    position_name=DEFAULT_NAME_POSITION,
+    position_name=DEFAULT_NAME,
 ):
     return test_client.post(
         url_for("api.position_list"),
@@ -176,4 +173,22 @@ def delete_position(test_client, access_token, position_id):
     return test_client.delete(
         url_for("api.position", id=position_id),
         headers={"Authorization": f"Bearer {access_token}"},
+    )
+
+
+def append_service_to_position(test_client, access_token, position_id, service_id):
+    return test_client.post(
+        url_for("api.position_services", id=position_id),
+        headers={"Authorization": f"Bearer {access_token}"},
+        data=f"service_id={service_id}",
+        content_type="application/x-www-form-urlencoded",
+    )
+
+
+def remove_service_from_position(test_client, access_token, position_id, service_id):
+    return test_client.delete(
+        url_for("api.position_services", id=position_id),
+        headers={"Authorization": f"Bearer {access_token}"},
+        data=f"service_id={service_id}",
+        content_type="application/x-www-form-urlencoded",
     )

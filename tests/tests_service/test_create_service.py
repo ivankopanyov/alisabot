@@ -8,7 +8,7 @@ from tests.util import (
     ADMIN_EMAIL,
     BAD_REQUEST,
     FORBIDDEN,
-    DEFAULT_NAME_SERVICE,
+    DEFAULT_NAME,
     login_user,
     create_service,
 )
@@ -38,7 +38,7 @@ def test_create_service_valid_duration(client, db, admin, duration):
     assert response.status_code == HTTPStatus.CREATED
     id = response.json["id"]
     assert "status" in response.json and response.json["status"] == "success"
-    success = f"New service added: {DEFAULT_NAME_SERVICE}."
+    success = f"New service added: {DEFAULT_NAME}."
     assert "message" in response.json and response.json["message"] == success
     location = f"http://localhost/api/v1/services/{id}"
     assert "Location" in response.headers and response.headers["Location"] == location

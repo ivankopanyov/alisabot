@@ -103,7 +103,7 @@ class PositionService(Resource):
     @position_ns.response(int(HTTPStatus.OK), "Service was added.")
     @position_ns.response(int(HTTPStatus.FORBIDDEN), "Administrator token required.")
     @position_ns.expect(service_id_reqparser)
-    def put(self, id):
+    def post(self, id):
         service_id_dict = service_id_reqparser.parse_args()
         return append_service(id, service_id_dict)
 

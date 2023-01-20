@@ -4,8 +4,8 @@ from http import HTTPStatus
 from tests.util import (
     ADMIN_EMAIL,
     EMAIL,
-    DEFAULT_NAME_SERVICE,
-    DEFAULT_DESCRIPTION_SERVICE,
+    DEFAULT_NAME,
+    DEFAULT_DESCRIPTION,
     DEFAULT_DURATION_SERVICE,
     login_user,
     create_service,
@@ -26,8 +26,8 @@ def test_retrieve_service_non_admin_user(client, db, admin, user):
     response = retrieve_service(client, access_token, service_id=id)
     assert response.status_code == HTTPStatus.OK
 
-    assert "name" in response.json and response.json["name"] == DEFAULT_NAME_SERVICE
-    assert "description" in response.json and response.json["description"] == DEFAULT_DESCRIPTION_SERVICE
+    assert "name" in response.json and response.json["name"] == DEFAULT_NAME
+    assert "description" in response.json and response.json["description"] == DEFAULT_DESCRIPTION
     assert "duration" in response.json and response.json["duration"] == DEFAULT_DURATION_SERVICE
     assert "owner" in response.json and "email" in response.json["owner"]
     assert response.json["owner"]["email"] == ADMIN_EMAIL

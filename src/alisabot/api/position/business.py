@@ -105,7 +105,7 @@ def remove_service(id, service_id_dict):
     service_id = service_id_dict["service_id"]
     position = Position.query.filter_by(id=id).first_or_404(description="Position not found in database.")
     service = Service.query.filter_by(id=service_id).first_or_404(description="Service not found in database.")
-    if not service in position.services:
+    if service not in position.services:
         return "", HTTPStatus.OK
     position.services.remove(service)
     db.session.commit()

@@ -7,6 +7,10 @@ from flask_restx.reqparse import RequestParser
 from alisabot.api.service.dto import service_model
 
 
+def service_id(service_id):
+    return f"{service_id}"
+
+
 def position_name(name):
     if len(name) > 100:
         raise ValueError("Name max 100.")
@@ -27,7 +31,7 @@ position_owner_model = Model("Position Owner", {"email": String, "public_id": St
 position_model = Model(
     "Position",
     {
-        "id": Integer,
+        "id": String,
         "name": String,
         "services": List(Nested(position_service_model)),
         "created_at_iso8601": DateTime(attribute="created_at"),
@@ -59,4 +63,4 @@ pagination_model = Model(
 update_position_reqparser = create_position_reqparser.copy()
 
 service_id_reqparser = RequestParser(bundle_errors=True)
-service_id_reqparser.add_argument("service_id", type=positive, location="form", required=True, nullable=False)
+service_id_reqparser.add_argument("service_id", type=service_id, location="form", required=True, nullable=False)
